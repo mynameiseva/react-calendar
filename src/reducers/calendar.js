@@ -1,4 +1,4 @@
-import {SELECT_ALL, RANGE_SELECTED} from '../actions/actions'
+import {SELECT_ALL, RANGE_SELECTED, CLEAR_ALL} from '../actions/actions'
 import calendarData from '../calendarData.json'
 import {hourToBt, hourToEt} from '../helpers'
 import {prop, ascend, sort, last} from 'ramda'
@@ -35,8 +35,13 @@ export default function (state = initalState, action) {
     case SELECT_ALL:
       return {
         ...state,
-        [action.payload.day]: {bt: 0, et: hourToEt(24)}
+        [action.payload.day]: [{bt: 0, et: hourToEt(24)}]
       }
+    case CLEAR_ALL:
+    return {
+      ...state,
+      [action.payload.day]: []
+    }
     default:
       return state
   }

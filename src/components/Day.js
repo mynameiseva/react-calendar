@@ -3,17 +3,17 @@ import {connect} from 'react-redux'
 import styled from 'styled-components'
 import Hour from './Hour'
 import {range} from 'ramda'
-import {selectAll, rangeSelected} from '../actions/actions'
+import {selectAll, rangeSelected, clearAll} from '../actions/actions'
 import {fromBtToHour, fromEtToHour} from '../helpers'
 
 const DayLabel = styled.div`
   width: 40px;
   height: 40px;
-  background: blue;
+  background: grey;
   border: 1px solid black;
   text-align: center;
   vertical-align: center; 
-  color: red;
+  color: white;
 `
 
 const AllDaysSelector = styled.div`
@@ -35,6 +35,7 @@ class Day extends Component {
     this.state = {
       isSelectingRange: false,
       beginSelectionHour: null,
+      isSelectedAll: false
     }
 
     this.handleHourClick = this.handleHourClick.bind(this)
@@ -57,13 +58,26 @@ class Day extends Component {
     return timeRanges.some(({bt, et}) => (hour >= fromBtToHour(bt)) && (hour <= fromEtToHour(et)))
   }
 
+  selectAllHandler(day) {
+    const {clearAll, selectAll} = this.props
+    const {isSelectedAll} = this.state
+
+    if(isSelectedAll) {
+      this.setState({isSelected: false}, () => clearAll(day))  
+    }
+    else {
+      this.setState({isSelectedAll: true}, () => selectAll(day))
+    }
+
+  }
+
   render() {
-    const {name, selectAll} = this.props
+    const {name} = this.props
 
     return (
       <Row>
         <DayLabel>{name}</DayLabel>
-        <AllDaysSelector onClick={() => selectAll(name)} />
+        <AllDaysSelector onClick={() => this.selectAllHandler(name)} />
         {range(1, 25).map(hour =>
           <Hour
             key={hour}
@@ -82,7 +96,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   rangeSelected: (day, startHour, endHour) => dispatch(rangeSelected(day, startHour, endHour)),
-  selectAll: day => dispatch(selectAll(day))
+  selectAll: day => dispatch(selectAll(day)),
+  clearAll: day => dispatch(clearAll(day))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Day)
