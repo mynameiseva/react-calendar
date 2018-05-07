@@ -1,14 +1,7 @@
-import React, { Component } from 'react'
-import TableContent from './components/TableContent'
-class App extends Component {
+import React from 'react'
+import Calendar from './components/Calendar'
 
-  render() {
-    return (
-      <div className="container">
-        <TableContent/>
-      </div>
-    )
-  }
-}
-
-export default App;
+export default () =>
+  <div className="container">
+    <Calendar/>
+  </div>

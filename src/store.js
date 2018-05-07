@@ -1,5 +1,4 @@
-import logger from 'redux-logger'
-import {createStore, applyMiddleware, compose} from 'redux'
+import {createStore, compose} from 'redux'
 import reducers from './reducers/index'
 
 const composeSetup = process.env.NODE_ENV !== 'production' && typeof window === 'object' &&
@@ -8,5 +7,5 @@ const composeSetup = process.env.NODE_ENV !== 'production' && typeof window === 
 
 export default createStore(
   reducers,
-  composeSetup(applyMiddleware(logger))
+  composeSetup()
 )

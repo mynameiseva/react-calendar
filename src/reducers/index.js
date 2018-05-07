@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
-import calendarData from './reducer'
+import calendar from './calendar'
 
 export default combineReducers({
-  calendarData
+  calendar
 })
