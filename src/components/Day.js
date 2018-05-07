@@ -63,7 +63,8 @@ class Day extends Component {
     const {isSelectedAll} = this.state
 
     if(isSelectedAll) {
-      this.setState({isSelected: false}, () => clearAll(day))  
+      this.setState({isSelectedAll: false}, () => clearAll(day))  
+      
     }
     else {
       this.setState({isSelectedAll: true}, () => selectAll(day))
